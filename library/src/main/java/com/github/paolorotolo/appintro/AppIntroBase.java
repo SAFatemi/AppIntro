@@ -904,6 +904,14 @@ public abstract class AppIntroBase extends AppCompatActivity implements
         }
     }
 
+    /**
+     * Return the correct slide number depending on whether it's RTL or not
+     */
+    protected Integer getSlideNumber(Integer number) {
+        if (isRtl()) return mPagerAdapter.getFragments().size() + 1 - number;
+        else return number;
+    }
+
     // Returns true if a permission has been requested
     private boolean checkAndRequestPermissions(){
         if (!permissionsArray.isEmpty()) {
@@ -913,7 +921,7 @@ public abstract class AppIntroBase extends AppCompatActivity implements
             //noinspection LoopStatementThatDoesntLoop
             for (int i = 0; i < permissionsArray.size(); i++) {
                 requestPermission =
-                        pager.getCurrentItem() + 1 == permissionsArray.get(i).getPosition();
+                        pager.getCurrentItem() + 1 == getSlideNumber(permissionsArray.get(i).getPosition());
                 permissionPosition = i;
                 break;
             }
@@ -960,7 +968,7 @@ public abstract class AppIntroBase extends AppCompatActivity implements
         switch (requestCode) {
             case PERMISSIONS_REQUEST_ALL_PERMISSIONS:
                 // Check if next slide is the last one
-                if (pager.getCurrentItem()+1 == slidesNumber) {
+                if (getSlideNumber(pager.getCurrentItem()+1) == slidesNumber) {
                     changeSlide(true);
                 } else {
                     changeSlide(false);
