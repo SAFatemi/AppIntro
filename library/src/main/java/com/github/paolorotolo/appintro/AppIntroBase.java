@@ -107,6 +107,7 @@ public abstract class AppIntroBase extends AppCompatActivity implements
             }
         }
         if (isRtl()) {
+            (backButton).setScaleX(-1);
             (nextButton).setScaleX(-1);
         }
 
@@ -156,8 +157,10 @@ public abstract class AppIntroBase extends AppCompatActivity implements
             backButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (pager.getCurrentItem() > 0) {
-                        pager.setCurrentItem(pager.getCurrentItem() - 1);
+                    //if (pager.getCurrentItem() > 0) {
+                    if (!pager.isFirstSlide(fragments.size())) {
+                        //pager.setCurrentItem(pager.getCurrentItem() - 1);
+                        pager.goToPreviousSlide();
                     }
                 }
             });
@@ -509,7 +512,8 @@ public abstract class AppIntroBase extends AppCompatActivity implements
                 setButtonState(nextButton, true);
                 setButtonState(doneButton, false);
                 if (isWizardMode) {
-                    if (pager.getCurrentItem() == 0) {
+                    //if (pager.getCurrentItem() == 0) {
+                    if (pager.isFirstSlide(fragments.size())) {
                         setButtonState(backButton, false);
                     } else {
                         setButtonState(backButton, isWizardMode);
